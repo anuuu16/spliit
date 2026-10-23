@@ -14,6 +14,16 @@ cp .env.example .env
 pnpm i                     # or: npm ci — installs, then applies the database migrations and generates the Prisma client
 ```
 
+Without access to `binaries.prisma.sh`, `pnpm i` stops at `prisma migrate deploy` (Prisma downloads its schema engine on first
+use). Then, on an empty database:
+
+```
+pnpm i --ignore-scripts                                       # or: npm ci --ignore-scripts
+PRISMA_SCHEMA_ENGINE_BINARY=/usr/bin/false npx prisma generate
+for f in prisma/migrations/*/migration.sql; do psql "postgresql://postgres:1234@localhost:5432/spliit" -v ON_ERROR_STOP=1 -q -f "$f"; done
+```
+A new migration is applied the same way (`psql … -f prisma/migrations/<name>/migration.sql`).
+
 If PostgreSQL is installed but not running: `pg_ctl -D <data dir> start` (or `sudo service postgresql start`), then
 `createdb spliit` (or `psql -c "create database spliit"`).
 
@@ -40,7 +50,8 @@ npx jest src/lib/balances.test.ts   # one test file
 ## End-to-end tests (Playwright, against a running app)
 
 ```
-npx playwright install chromium     # once
+npx playwright install chromium     # once (Playwright 1.58.2 = Chromium revision 1208; not needed if
+                                    # PLAYWRIGHT_BROWSERS_PATH already has chromium-1208)
 npm run e2e                         # tests http://localhost:3000; another URL: E2E_BASE_URL=http://localhost:3100 npm run e2e
 npx playwright test e2e/core.spec.ts
 npm run e2e:report                  # open the HTML report

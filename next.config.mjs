@@ -32,6 +32,8 @@ const nextConfig = {
     remotePatterns
   },
   reactCompiler: true,
+  // Don't write AGENTS.md / CLAUDE.md into the project on `next dev`.
+  agentRules: false,
   // Required to run in a codespace (see https://github.com/vercel/next.js/issues/58019)
   experimental: {
     serverActions: {

@@ -57,7 +57,8 @@ check "README.md (COMMANDS.md instead)" "$(grep -c "^$NAME/README\.md$" <<<"$lis
 check "COMMANDS.md present"     "$(grep -c "^$NAME/COMMANDS\.md$" <<<"$list" || true)" 1
 check "this .sandbox folder"    "$(grep -c "^$NAME/\.sandbox/" <<<"$list" || true)" 0
 check ".gitignore present"      "$(grep -c "^$NAME/\.gitignore$" <<<"$list" || true)" 1
-check "package-lock.json + .env.example present" "$(grep -cE "^$NAME/(package-lock\.json|\.env\.example)$" <<<"$list" || true)" 2
+check "package-lock.json, pnpm-lock.yaml, .npmrc, .env.example present" "$(grep -cE "^$NAME/(package-lock\.json|pnpm-lock\.yaml|\.npmrc|\.env\.example)$" <<<"$list" || true)" 4
+check "pnpm builds approved"    "$(unzip -p "$ZIP" "$NAME/package.json" | grep -c '"onlyBuiltDependencies"' || true)" 1
 check "next.config: agentRules off" "$(unzip -p "$ZIP" "$NAME/next.config.mjs" | grep -c 'agentRules: false' || true)" 1
 check "private registry URLs"   "$(unzip -p "$ZIP" | grep -acE 'artifactor[y]|\.jfrog\.io' || true)" 0
 check "API keys"                "$(unzip -p "$ZIP" | grep -acE 'sk-[A-Za-z0-9_-]{20,}|sk-ant-|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|github_pat_|BEGIN [A-Z ]*PRIVATE KEY' || true)" 0

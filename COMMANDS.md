@@ -1,7 +1,8 @@
 # Commands
 
 Spliit is a Next.js app (React UI and Node server in one) with a PostgreSQL database through Prisma.
-Needs Node >= 24, npm >= 11 and a running PostgreSQL.
+Needs Node >= 24 and a running PostgreSQL. Install with **pnpm** (`pnpm i`) or **npm** (`npm ci`, npm >= 11): both lockfiles are
+kept in sync.
 
 ## Setup
 
@@ -10,11 +11,14 @@ cp .env.example .env
 # in .env, point both URLs at your database, e.g.
 #   POSTGRES_PRISMA_URL=postgresql://postgres:1234@localhost:5432/spliit
 #   POSTGRES_URL_NON_POOLING=postgresql://postgres:1234@localhost:5432/spliit
-npm ci                     # installs, then applies the database migrations and generates the Prisma client
+pnpm i                     # or: npm ci — installs, then applies the database migrations and generates the Prisma client
 ```
 
 If PostgreSQL is installed but not running: `pg_ctl -D <data dir> start` (or `sudo service postgresql start`), then
 `createdb spliit` (or `psql -c "create database spliit"`).
+
+The packages that need install scripts (Prisma, esbuild, SWC…) are pre-approved for pnpm in `package.json` (`pnpm.onlyBuiltDependencies`).
+With pnpm, run the scripts below as `pnpm <script>` (e.g. `pnpm dev`, `pnpm test`).
 
 ## Run the app
 

@@ -51,6 +51,8 @@
     "cmdk": "^1.1.1",
     "content-disposition": "^3.0.0",
     "dayjs": "^1.11.23",
+    "decimal.js": "^10.6.0",
+    "deepmerge": "^4.3.1",
     "embla-carousel-react": "^8.6.0",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^1.52.0",
@@ -105,5 +107,16 @@
     "tailwindcss": "^4.3.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@prisma/engines",
+      "@swc/core",
+      "esbuild",
+      "fsevents",
+      "prisma",
+      "unrs-resolver"
+    ]
   }
 }
